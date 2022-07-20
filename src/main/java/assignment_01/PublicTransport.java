@@ -84,6 +84,7 @@ public class PublicTransport {
     public boolean getOn(int passenger) {
         if (!status.equals("운행중")) {
             System.out.println("warning: 운행중이지 않은 차량에 탑승할 수 없습니다.");
+            return false;
         }
         int on = this.passenger + passenger;
         if (maxPassengerVolume < on) {
@@ -127,6 +128,7 @@ public class PublicTransport {
     }
 
     public void print() {
+        System.out.println("차량 고유번호: " + this.number);
         System.out.println("탑승 승객 수: " + this.passenger);
         System.out.println("잔여 승객 수: " + (this.maxPassengerVolume - this.passenger));
         System.out.println("총 수입: " + this.income);
