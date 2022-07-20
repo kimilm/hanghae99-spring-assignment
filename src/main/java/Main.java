@@ -9,17 +9,16 @@ public class Main {
         // 출력
         bus.print();
         // 주유량 -50
-        bus.refuel(-50);
-        System.out.println("\n주유량: " + bus.getFuel() + "\n");
         // 상태변경: 차고지행
-        // 주유량 +10
+        bus.refuel(-95);
         bus.getOff(2);
-        bus.setStatus("차고지행");
-        bus.refuel(10);
-        System.out.println("상태: " + bus.getStatus());
-        System.out.println("주유량: " + bus.getFuel() + "\n");
+        bus.getOn(2);
+        System.out.println("주유량: " + bus.getFuel());
+        System.out.println("상태: " + bus.getStatus() + "\n");
+        // 주유량 +10
         // 상태변경: 운행중
-        bus.setStatus("운행중");
+        bus.refuel(90);
+        System.out.println("주유량: " + bus.getFuel());
         System.out.println("상태: " + bus.getStatus() + "\n");
         // 승객 +45
         // 최대 승객 초과 알럿
@@ -31,7 +30,6 @@ public class Main {
         // 주유량 알럿
         bus.getOff(5);
         bus.refuel(-55);
-        bus.setStatus("차고지행");
         // 출력 Bus
         System.out.println("\n주유량: " + bus.getFuel());
         System.out.println("상태: " + bus.getStatus());
