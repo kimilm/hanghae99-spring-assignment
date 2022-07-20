@@ -1,5 +1,7 @@
 package assignment_01;
 
+import java.util.Objects;
+
 public class PublicTransport {
     //차량번호
     private int number;
@@ -21,6 +23,8 @@ public class PublicTransport {
     //주유량 = 100
     //속도 = 0
     protected PublicTransport() {
+        //번호
+        this.number = Objects.hash(System.currentTimeMillis());
         //주유량 100
         this.fuel = 100;
         //속도 0
@@ -49,7 +53,11 @@ public class PublicTransport {
     //운행 시작
     public void onDrive() {
         this.status = "운행중";
-        //speed++;
+        this.speed = 10;
+    }
+    //운행 종료
+    public void offDrive() {
+        this.status = "차고지행";
     }
 
     public int getSpeed() {
@@ -74,6 +82,9 @@ public class PublicTransport {
 
     //승객 탑승
     public boolean getOn(int passenger) {
+        if (!status.equals("운행중")) {
+            System.out.println("warning: 운행중이지 않은 차량에 탑승할 수 없습니다.");
+        }
         int on = this.passenger + passenger;
         if (maxPassengerVolume < on) {
             System.out.println("warning: 최대 승객 수를 초과하였습니다");
@@ -97,14 +108,12 @@ public class PublicTransport {
         return fuel;
     }
 
-    public void setFuel(int fuel) {
-        this.fuel = fuel;
-    }
-
     public boolean refuel(int fuel) {
         this.fuel += fuel;
+        this.status = "운행중";
         if (this.fuel < 10) {
             System.out.println("\nwarning: " + "주유 필요");
+            this.status = "차고지행";
         }
         return true;
     }
@@ -118,7 +127,6 @@ public class PublicTransport {
     }
 
     public void print() {
-        System.out.println("\ninfo----");
         System.out.println("탑승 승객 수: " + this.passenger);
         System.out.println("잔여 승객 수: " + (this.maxPassengerVolume - this.passenger));
         System.out.println("총 수입: " + this.income);
