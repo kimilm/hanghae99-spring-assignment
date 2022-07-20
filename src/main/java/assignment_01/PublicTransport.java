@@ -60,6 +60,10 @@ public class PublicTransport {
         this.status = "차고지행";
     }
 
+    public int getNumber() {
+        return this.number;
+    }
+
     public int getSpeed() {
         return speed;
     }
@@ -82,10 +86,6 @@ public class PublicTransport {
 
     //승객 탑승
     public boolean getOn(int passenger) {
-        if (!status.equals("운행중")) {
-            System.out.println("warning: 운행중이지 않은 차량에 탑승할 수 없습니다.");
-            return false;
-        }
         int on = this.passenger + passenger;
         if (maxPassengerVolume < on) {
             System.out.println("warning: 최대 승객 수를 초과하였습니다");
@@ -106,17 +106,14 @@ public class PublicTransport {
     }
 
     public int getFuel() {
+        if (this.fuel < 10) {
+            System.out.println("\nwarning: " + "주유 필요");
+        }
         return fuel;
     }
 
-    public boolean refuel(int fuel) {
+    public void refuel(int fuel) {
         this.fuel += fuel;
-        this.status = "운행중";
-        if (this.fuel < 10) {
-            System.out.println("\nwarning: " + "주유 필요");
-            this.status = "차고지행";
-        }
-        return true;
     }
 
     public int getIncome() {

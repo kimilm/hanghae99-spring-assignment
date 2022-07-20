@@ -4,18 +4,21 @@ public class Main {
     public static void main(String[] args) {
         // 버스 시나리오
         Bus bus = new Bus();
+        System.out.println("bus 1 고유번호: " + bus.getNumber());
+        Bus bus2 = new Bus();
+        System.out.println("bus 2 고유번호: " + bus2.getNumber() + "\n");
         // 승객 +2
         bus.getOn(2);
         // 출력
         bus.print();
-        // 주유량 -50
+        // 주유량 -95
         // 상태변경: 차고지행
         bus.refuel(-95);
         bus.getOff(2);
         bus.getOn(2);
         System.out.println("주유량: " + bus.getFuel());
         System.out.println("상태: " + bus.getStatus() + "\n");
-        // 주유량 +10
+        // 주유량 +90
         // 상태변경: 운행중
         bus.refuel(90);
         System.out.println("주유량: " + bus.getFuel());
@@ -26,7 +29,7 @@ public class Main {
         // 승객 +5
         bus.getOn(5);
         bus.print();
-        // 주유량 -55/
+        // 주유량 -55
         // 주유량 알럿
         bus.getOff(5);
         bus.refuel(-55);
