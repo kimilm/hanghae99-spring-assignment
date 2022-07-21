@@ -1,5 +1,7 @@
-import assignment_01.Bus;
-import assignment_01.Taxi;
+package assignment_01;
+
+import assignment_01.transport.Bus;
+import assignment_01.transport.Taxi;
 
 public class Main {
     public static void main(String[] args) throws Exception {

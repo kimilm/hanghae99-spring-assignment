@@ -1,4 +1,4 @@
-package assignment_01;
+package assignment_01.transport;
 
 public class Bus extends PublicTransport {
     // 운행요금
