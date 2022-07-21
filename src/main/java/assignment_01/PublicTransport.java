@@ -88,7 +88,7 @@ public class PublicTransport {
     public boolean getOn(int passenger) {
         int on = this.passenger + passenger;
         if (maxPassengerVolume < on) {
-            System.out.println("warning: 최대 승객 수를 초과하였습니다");
+            System.out.println("warning: 최대 승객 수를 초과하였습니다\n");
             return false;
         }
         this.passenger = on;
@@ -105,9 +105,13 @@ public class PublicTransport {
         return true;
     }
 
+    public int getPassenger() {
+        return this.passenger;
+    }
+
     public int getFuel() {
         if (this.fuel < 10) {
-            System.out.println("\nwarning: " + "주유 필요");
+            System.out.println("warning: " + "주유 필요\n");
         }
         return fuel;
     }
