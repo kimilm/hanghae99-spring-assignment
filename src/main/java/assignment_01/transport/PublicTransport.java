@@ -51,9 +51,13 @@ public class PublicTransport {
 
     //기능
     //운행 시작
-    public void onDrive() {
+    public boolean onDrive() {
+        if (getFuel() <= 10) {
+            return false;
+        }
         this.status = "운행중";
         this.speed = 10;
+        return true;
     }
     //운행 종료
     public void offDrive() {
@@ -69,6 +73,9 @@ public class PublicTransport {
     }
 
     public void setSpeed(int speed) {
+        if (getFuel() <= 10) {
+            return;
+        }
         int temp = this.speed + speed;
         if (temp < 0) {
             return;

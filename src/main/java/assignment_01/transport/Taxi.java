@@ -21,9 +21,18 @@ public class Taxi extends PublicTransport {
         this.destinationDistance = 0;
     }
 
+    @Override
+    public boolean onDrive() {
+        boolean result = super.onDrive();
+        if (result) {
+            setStatus("일반");
+        }
+        return result;
+    }
+
     public boolean getOn(int passenger, String destination, int destinationDistance) {
-        if (getStatus().equals("운행중")) {
-            System.out.println("warning: 운행중인 차량에 탑승할 수 없습니다.");
+        if (!getStatus().equals("일반")) {
+            System.out.println("warning: 일반 상태의 차량에만 탑승 가능합니다.");
             return false;
         }
         // 탑승처리
