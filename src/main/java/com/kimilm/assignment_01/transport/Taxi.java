@@ -1,4 +1,4 @@
-package assignment_01.transport;
+package com.kimilm.assignment_01.transport;
 
 public class Taxi extends PublicTransport {
     // 목적지
