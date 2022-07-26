@@ -40,8 +40,12 @@ public class PostRestController {
     @PostMapping("/api/posts")
     public ResponseEntity<Map<String, Object>> createPost(@RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
         Post post = new Post(requestDto);
+        Post saved = postRepository.save(post);
+
         Map<String, Object> result = new HashMap<>();
         result.put(PostUtils.MESSAGE, "작성 완료");
-        return ResponseEntity.ok().body(result);
+        result.put("id", saved.getId());
+
+    return ResponseEntity.ok().body(result);
     }
 }
