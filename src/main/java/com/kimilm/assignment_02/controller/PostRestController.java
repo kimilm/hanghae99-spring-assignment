@@ -3,6 +3,7 @@ package com.kimilm.assignment_02.controller;
 import com.kimilm.assignment_02.model.Post;
 import com.kimilm.assignment_02.model.PostListResponseDto;
 import com.kimilm.assignment_02.model.PostRequestDto;
+import com.kimilm.assignment_02.model.PostResponseDto;
 import com.kimilm.assignment_02.repository.PostRepository;
 import com.kimilm.assignment_02.util.PostUtils;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +42,10 @@ public class PostRestController {
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("잘못된 게시글 아이디를 입력하였습니다.")
         );
+        PostResponseDto responseDto = new PostResponseDto(post);
 
         Map<String, Object> result = new HashMap<>();
-        result.put(PostUtils.DATA, post);
+        result.put(PostUtils.DATA, responseDto);
 
         return ResponseEntity.ok().body(result);
     }
