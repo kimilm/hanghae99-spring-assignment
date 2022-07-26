@@ -24,6 +24,18 @@ public class PostRestController {
 
     private final PostRepository postRepository;
 
+    // 게시글 전체 목록 조회 api
+    @GetMapping("/api/posts")
+    public ResponseEntity<Map<String, Object>> getPostList() {
+        List<PostListResponseDto> postListResponseDtoList = postRepository
+                .findAllByOrderByCreatedAtDesc().stream()
+                .map(PostListResponseDto::new)
+                .collect(Collectors.toList());
+        Map<String, Object> result = new HashMap<>();
+        result.put(PostUtils.DATA, postListResponseDtoList);
+        return ResponseEntity.ok().body(result);
+    }
+
     // 게시글 작성 api
     @PostMapping("/api/posts")
     public ResponseEntity<Map<String, Object>> createPost(@RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
