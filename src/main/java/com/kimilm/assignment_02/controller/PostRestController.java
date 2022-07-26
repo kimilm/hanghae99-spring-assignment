@@ -5,8 +5,10 @@ import com.kimilm.assignment_02.model.PostListResponseDto;
 import com.kimilm.assignment_02.model.PostRequestDto;
 import com.kimilm.assignment_02.model.PostResponseDto;
 import com.kimilm.assignment_02.repository.PostRepository;
+import com.kimilm.assignment_02.service.PostService;
 import com.kimilm.assignment_02.util.PostUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class PostRestController {
 
     private final PostRepository postRepository;
+    private final PostService postService;
 
     // 게시글 전체 목록 조회 api
     @GetMapping("/api/posts")
@@ -78,6 +81,18 @@ public class PostRestController {
 
         Map<String, Object> result = new HashMap<>();
         result.put(PostUtils.MESSAGE, "비밀번호가 일치합니다.");
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    // 게시글 수정 api
+    @PutMapping("/api/posts/{id}")
+    public ResponseEntity<Map<String, Object>> updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
+        Long updatedId = postService.updatePost(id, requestDto);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put(PostUtils.MESSAGE, "수정 성공");
+        result.put("id", updatedId);
 
         return ResponseEntity.ok().body(result);
     }
