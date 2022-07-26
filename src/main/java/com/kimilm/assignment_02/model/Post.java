@@ -33,4 +33,11 @@ public class Post extends Timestamped {
         this.contents = requestDto.getContents();
         this.password = PostUtils.encoding(requestDto.getPassword());
     }
+
+    public void update(PostRequestDto requestDto) throws NoSuchAlgorithmException {
+        this.title = requestDto.getTitle();
+        this.author = requestDto.getAuthor();
+        this.contents = requestDto.getContents();
+        this.password = PostUtils.encoding(requestDto.getPassword());
+    }
 }
