@@ -69,13 +69,9 @@ public class PostRestController {
     // 비밀번호 검증 api
     @PostMapping("/api/posts/{id}")
     public ResponseEntity<Map<String, Object>> validatePassword(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
-        Post post = postRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("잘못된 게시글 아이디를 입력하였습니다.")
-        );
+        boolean validation = postService.validatePassword(id, requestDto.getPassword());
 
-        String encoded = PostUtils.encoding(requestDto.getPassword());
-
-        if (!post.getPassword().equals(encoded)) {
+        if (!validation) {
             throw new IllegalArgumentException("잘못된 비밀번호를 입력하였습니다.");
         }
 
