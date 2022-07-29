@@ -1,7 +1,5 @@
-package com.kimilm.assignment_01;
-
-import com.kimilm.assignment_01.transport.Bus;
-import com.kimilm.assignment_01.transport.Taxi;
+import transport.Bus;
+import transport.Taxi;
 
 public class Main {
     public static void main(String[] args) throws Exception {

@@ -1,4 +1,4 @@
-package com.kimilm.assignment_01.transport;
+package transport;
 
 import java.util.Objects;
 
