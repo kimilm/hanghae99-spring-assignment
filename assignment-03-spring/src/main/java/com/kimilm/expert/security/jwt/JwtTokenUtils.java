@@ -21,6 +21,7 @@ public final class JwtTokenUtils {
     public static final String CLAIM_EXPIRED_DATE = "EXPIRED_DATE";
     public static final String CLAIM_USER_NAME = "USER_NAME";
     public static final String JWT_SECRET = "jwt_secret_!@#$%";
+    public static final String AUTH_TYPE = "Bearer ";
 
     public static String generateJwtToken(UserDetailsImpl userDetails) {
         String token = null;
@@ -35,7 +36,7 @@ public final class JwtTokenUtils {
             System.out.println(e.getMessage());
         }
 
-        return token;
+        return AUTH_TYPE + token;
     }
 
     // 여기에 Refrash Token 생성
@@ -55,7 +56,7 @@ public final class JwtTokenUtils {
             System.out.println(e.getMessage());
         }
 
-        return token;
+        return AUTH_TYPE + token;
     }
 
     private static Algorithm generateAlgorithm() {

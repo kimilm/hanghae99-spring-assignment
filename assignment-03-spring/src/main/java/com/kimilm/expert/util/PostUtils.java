@@ -5,10 +5,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class PostUtils {
-    public static String DATA = "data";
-    public static String MESSAGE = "msg";
-    public static String ACCESS_TOKEN = "Access-Token";
-    public static String REFRESH_TOKEN = "Refresh-Token";
+    public final static String DATA = "data";
+    public final static String MESSAGE = "msg";
+    public final static String ACCESS_TOKEN = "Access-Token";
+    public final static String REFRESH_TOKEN = "Refresh-Token";
+    public final static String AUTHORIZATION = "Authorization";
 
     public static String encoding(String password) throws NoSuchAlgorithmException {
         MessageDigest msg = MessageDigest.getInstance("SHA-256");
