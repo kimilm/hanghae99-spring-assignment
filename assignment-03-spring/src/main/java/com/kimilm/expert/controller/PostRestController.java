@@ -88,12 +88,15 @@ public class PostRestController {
     }
 
     // 게시글 삭제 api
-    @DeleteMapping(NAME_SPACE + "/api/posts/{id}")
-    public ResponseEntity<?> updatePost(@PathVariable Long id) {
-        postRepository.deleteById(id);
+    @DeleteMapping(NAME_SPACE + "/api/posts/{postId}")
+    public ResponseEntity<?> updatePost(
+            @PathVariable Long postId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long deletedId = postService.deletePost(postId, userDetails.getUser());
 
         Map<String, Object> result = new HashMap<>();
         result.put(PostUtils.MESSAGE, "삭제 성공");
+        result.put("postId", deletedId);
 
         return ResponseEntity.ok().body(result);
     }

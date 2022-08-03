@@ -27,8 +27,8 @@ public class PostService {
 
     // 게시글 수정
     @Transactional
-    public Long updatePost(Long id, PostRequestDto requestDto, User user) {
-        Post post = postRepository.findById(id).orElseThrow(
+    public Long updatePost(Long postId, PostRequestDto requestDto, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("잘못된 게시글 아이디를 입력하였습니다.")
         );
 
@@ -38,6 +38,21 @@ public class PostService {
 
         post.update(requestDto);
 
-        return id;
+        return postId;
+    }
+
+    // 게시글 삭제
+    public Long deletePost(Long postId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("잘못된 게시글 아이디를 입력하였습니다.")
+        );
+
+        if (!post.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("게시글 작성자만 삭제할 수 있습니다.");
+        }
+
+        postRepository.delete(post);
+
+        return postId;
     }
 }
