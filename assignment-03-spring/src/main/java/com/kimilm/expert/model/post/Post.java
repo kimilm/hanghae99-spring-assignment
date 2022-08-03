@@ -1,12 +1,15 @@
 package com.kimilm.expert.model.post;
 
 import com.kimilm.expert.model.Timestamped;
+import com.kimilm.expert.model.comment.Comment;
 import com.kimilm.expert.model.post.dto.PostRequestDto;
 import com.kimilm.expert.model.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,6 +29,8 @@ public class Post extends Timestamped {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    List<Comment> comments = new ArrayList<>();
 
     public Post(PostRequestDto requestDto, User user) {
         this.title = requestDto.getTitle();

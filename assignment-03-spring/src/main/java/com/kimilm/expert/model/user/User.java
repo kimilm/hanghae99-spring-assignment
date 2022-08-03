@@ -1,6 +1,7 @@
 package com.kimilm.expert.model.user;
 
 import com.kimilm.expert.model.Timestamped;
+import com.kimilm.expert.model.comment.Comment;
 import com.kimilm.expert.model.post.Post;
 import com.kimilm.expert.model.user.dto.SignupRequestDto;
 import lombok.Getter;
@@ -31,6 +32,9 @@ public class User extends Timestamped {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    List<Comment> comments = new ArrayList<>();
 
     public User(SignupRequestDto requestDto) {
         this.username = requestDto.getUsername();
