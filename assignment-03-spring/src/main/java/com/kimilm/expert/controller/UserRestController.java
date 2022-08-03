@@ -6,6 +6,7 @@ import com.kimilm.expert.model.user.dto.SignupRequestDto;
 import com.kimilm.expert.service.UserService;
 import com.kimilm.expert.util.PostUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +28,19 @@ public class UserRestController {
 
         List<String> tokens = userService.login(requestDto);
 
+        // 헤더에 발급받은 토큰 추가
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Token", tokens.get(0));
+
+        if (tokens.size() == 2) {
+            headers.add("Refresh-Token", tokens.get(1));
+        }
+        // body
         Map<String, Object> response = new HashMap<>();
         response.put(PostUtils.MESSAGE, "로그인 성공");
 
         return ResponseEntity.ok()
-                .header("Access-Token", tokens.get(0))
-                .header("Refresh-Token", tokens.get(1))
+                .headers(headers)
                 .body(response);
     }
 

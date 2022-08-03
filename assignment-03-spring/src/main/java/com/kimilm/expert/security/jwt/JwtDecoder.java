@@ -39,6 +39,18 @@ public class JwtDecoder {
         return username;
     }
 
+    public boolean isExpired(String token) {
+        DecodedJWT decodedJWT = isValidToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("유효한 토큰이 아닙니다."));
+
+        Date expiredDate = decodedJWT
+                .getClaim(CLAIM_EXPIRED_DATE)
+                .asDate();
+
+        Date now = new Date();
+        return expiredDate.before(now);
+    }
+
     private Optional<DecodedJWT> isValidToken(String token) {
         DecodedJWT jwt = null;
 

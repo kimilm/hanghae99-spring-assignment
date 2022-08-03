@@ -4,13 +4,11 @@ import com.kimilm.expert.model.Timestamped;
 import com.kimilm.expert.model.user.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "USERS")
 @NoArgsConstructor
 public class User extends Timestamped {
@@ -25,8 +23,15 @@ public class User extends Timestamped {
     @Column(nullable = false)
     private String password;
 
+    @Column
+    private String refreshToken;
+
     public User(SignupRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.password = requestDto.getPassword();
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }

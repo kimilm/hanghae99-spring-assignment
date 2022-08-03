@@ -5,6 +5,7 @@ import com.kimilm.expert.model.user.dto.LoginRequestDto;
 import com.kimilm.expert.model.user.dto.SignupRequestDto;
 import com.kimilm.expert.repository.UserRepository;
 import com.kimilm.expert.security.UserDetailsImpl;
+import com.kimilm.expert.security.jwt.JwtDecoder;
 import com.kimilm.expert.security.jwt.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,7 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +24,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtDecoder jwtDecoder;
 
     // 회원가입
     public User register(SignupRequestDto requestDto) {
@@ -40,6 +43,7 @@ public class UserService {
         return userRepository.save(new User(requestDto));
     }
 
+    @Transactional
     public List<String> login(LoginRequestDto requestDto) {
         User user = userRepository.findByUsername(requestDto.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("사용자 아이디가 잘못되었습니다."));
@@ -55,9 +59,18 @@ public class UserService {
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String accessToken = JwtTokenUtils.generateJwtToken(userDetails);
-        String refreshToken = JwtTokenUtils.generateRefreshToken(userDetails);
+        List<String> tokens = new ArrayList<>();
+        // accessToken
+        tokens.add(JwtTokenUtils.generateJwtToken(userDetails));
+        // 리프레시 토큰이 없거나 만료되었다면 리프레시 토큰 발급
+        String refreshToken = user.getRefreshToken();
+        if (refreshToken.isEmpty() || jwtDecoder.isExpired(refreshToken)) {
+            refreshToken = JwtTokenUtils.generateRefreshToken(userDetails);
 
-        return Arrays.asList(accessToken, refreshToken);
+            tokens.add(refreshToken);
+            user.setRefreshToken(refreshToken);
+        }
+
+        return tokens;
     }
 }
