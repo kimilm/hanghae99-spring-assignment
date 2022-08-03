@@ -5,10 +5,12 @@ import com.kimilm.expert.model.post.dto.PostListResponseDto;
 import com.kimilm.expert.model.post.dto.PostRequestDto;
 import com.kimilm.expert.model.post.dto.PostResponseDto;
 import com.kimilm.expert.repository.PostRepository;
+import com.kimilm.expert.security.UserDetailsImpl;
 import com.kimilm.expert.service.PostService;
 import com.kimilm.expert.util.PostUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
@@ -27,7 +29,7 @@ public class PostRestController {
     private final PostService postService;
 
     // 게시글 전체 목록 조회 api
-    @GetMapping(NAME_SPACE + "/api/posts/signup")
+    @GetMapping(NAME_SPACE + "/api/posts")
     public ResponseEntity<?> getPostList() {
         List<PostListResponseDto> postListResponseDtoList = postRepository
                 .findAllByOrderByCreatedAtDesc().stream()
@@ -56,28 +58,15 @@ public class PostRestController {
 
     // 게시글 작성 api
     @PostMapping(NAME_SPACE + "/api/posts")
-    public ResponseEntity<?> createPost(@RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
-        Post post = new Post(requestDto);
-        Post saved = postRepository.save(post);
+    public ResponseEntity<?> createPost(
+            @RequestBody PostRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        Long savedPostId = postService.createPost(requestDto, userDetails.getUser());
 
         Map<String, Object> result = new HashMap<>();
         result.put(PostUtils.MESSAGE, "작성 완료");
-        result.put("id", saved.getId());
-
-        return ResponseEntity.ok().body(result);
-    }
-
-    // 비밀번호 검증 api
-    @PostMapping(NAME_SPACE + "/api/posts/{id}")
-    public ResponseEntity<?> validatePassword(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
-        boolean validation = postService.validatePassword(id, requestDto.getPassword());
-
-        if (!validation) {
-            throw new IllegalArgumentException("잘못된 비밀번호를 입력하였습니다.");
-        }
-
-        Map<String, Object> result = new HashMap<>();
-        result.put(PostUtils.MESSAGE, "비밀번호가 일치합니다.");
+        result.put("postId", savedPostId);
 
         return ResponseEntity.ok().body(result);
     }
