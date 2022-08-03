@@ -1,11 +1,20 @@
 package com.kimilm.expert.service;
 
 import com.kimilm.expert.model.user.User;
+import com.kimilm.expert.model.user.dto.LoginRequestDto;
 import com.kimilm.expert.model.user.dto.SignupRequestDto;
 import com.kimilm.expert.repository.UserRepository;
+import com.kimilm.expert.security.UserDetailsImpl;
+import com.kimilm.expert.security.jwt.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +34,30 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호 입력값이 일치하지 않습니다.");
         }
 
-        requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        String password = passwordEncoder.encode(requestDto.getPassword());
+        requestDto.setPassword(password);
 
         return userRepository.save(new User(requestDto));
+    }
+
+    public List<String> login(LoginRequestDto requestDto) {
+        User user = userRepository.findByUsername(requestDto.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("사용자 아이디가 잘못되었습니다."));
+
+        String username = requestDto.getUsername();
+        boolean match = passwordEncoder.matches(requestDto.getPassword(), user.getPassword());
+
+        if (!match) {
+            throw new IllegalArgumentException("사용자 비밀번호가 잘못되었습니다.");
+        }
+
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String accessToken = JwtTokenUtils.generateJwtToken(userDetails);
+        String refreshToken = JwtTokenUtils.generateRefreshToken(userDetails);
+
+        return Arrays.asList(accessToken, refreshToken);
     }
 }
