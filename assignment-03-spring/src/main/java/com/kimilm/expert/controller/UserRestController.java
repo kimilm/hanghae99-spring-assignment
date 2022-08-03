@@ -22,19 +22,10 @@ public class UserRestController {
 
     private final UserService userService;
 
-    @PostMapping(NAME_SPACE + "/api/users")
+    // 회원가입
+    @PostMapping(NAME_SPACE + "/api/users/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequestDto requestDto) {
-
         User user = userService.register(requestDto);
-
-        // TODO
-        // exception handler 처리
-        if (user == null) {
-            Map<String, Object> response = new HashMap<>();
-            response.put(PostUtils.MESSAGE, "비밀번호 입력값이 다릅니다");
-
-            return ResponseEntity.badRequest().body(response);
-        }
 
         Map<String, Object> response = new HashMap<>();
         response.put(PostUtils.MESSAGE, "가입이 완료되었습니다");

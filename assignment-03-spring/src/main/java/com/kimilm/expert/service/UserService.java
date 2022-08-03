@@ -14,10 +14,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // 회원가입
     public User register(SignupRequestDto requestDto) {
+        // 사용자가 존재한다면
+        if (userRepository.existsByUsername(requestDto.getUsername())) {
+            throw new IllegalArgumentException("이미 존재하는 사용자 아이디 입니다.");
+        }
         // 패스워드 일치하지 않는다면
         if (!requestDto.getPassword().equals(requestDto.getPasswordConfirm())) {
-            return null;
+            throw new IllegalArgumentException("비밀번호 입력값이 일치하지 않습니다.");
         }
 
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
