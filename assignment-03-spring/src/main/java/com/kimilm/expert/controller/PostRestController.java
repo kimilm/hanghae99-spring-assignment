@@ -17,14 +17,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.kimilm.expert.controller.ApiPath.NAME_SPACE;
+
 @RestController
 @RequiredArgsConstructor
 public class PostRestController {
 
     private final PostRepository postRepository;
     private final PostService postService;
-
-    private final String NAME_SPACE = "/expert";
 
     // 게시글 전체 목록 조회 api
     @GetMapping(NAME_SPACE + "/api/posts")
