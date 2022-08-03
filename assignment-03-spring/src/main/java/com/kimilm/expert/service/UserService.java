@@ -48,7 +48,6 @@ public class UserService {
         User user = userRepository.findByUsername(requestDto.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("사용자 아이디가 잘못되었습니다."));
 
-        String username = requestDto.getUsername();
         boolean match = passwordEncoder.matches(requestDto.getPassword(), user.getPassword());
 
         if (!match) {
@@ -64,7 +63,7 @@ public class UserService {
         tokens.add(JwtTokenUtils.generateJwtToken(userDetails));
         // 리프레시 토큰이 없거나 만료되었다면 리프레시 토큰 발급
         String refreshToken = user.getRefreshToken();
-        if (refreshToken.isEmpty() || jwtDecoder.isExpired(refreshToken)) {
+        if (refreshToken == null || jwtDecoder.isExpired(refreshToken)) {
             refreshToken = JwtTokenUtils.generateRefreshToken(userDetails);
 
             tokens.add(refreshToken);
