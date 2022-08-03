@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.kimilm.expert.controller.ApiPath.NAME_SPACE;
+import static com.kimilm.expert.util.PostUtils.ACCESS_TOKEN;
+import static com.kimilm.expert.util.PostUtils.REFRESH_TOKEN;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,10 +32,10 @@ public class UserRestController {
 
         // 헤더에 발급받은 토큰 추가
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Token", tokens.get(0));
+        headers.add(ACCESS_TOKEN, tokens.get(0));
 
         if (tokens.size() == 2) {
-            headers.add("Refresh-Token", tokens.get(1));
+            headers.add(REFRESH_TOKEN, tokens.get(1));
         }
         // body
         Map<String, Object> response = new HashMap<>();

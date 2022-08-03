@@ -7,6 +7,8 @@ import java.security.NoSuchAlgorithmException;
 public class PostUtils {
     public static String DATA = "data";
     public static String MESSAGE = "msg";
+    public static String ACCESS_TOKEN = "Access-Token";
+    public static String REFRESH_TOKEN = "Refresh-Token";
 
     public static String encoding(String password) throws NoSuchAlgorithmException {
         MessageDigest msg = MessageDigest.getInstance("SHA-256");

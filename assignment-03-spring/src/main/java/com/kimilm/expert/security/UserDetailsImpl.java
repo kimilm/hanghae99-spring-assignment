@@ -1,7 +1,6 @@
 package com.kimilm.expert.security;
 
 import com.kimilm.expert.model.user.User;
-import com.kimilm.expert.model.user.UserRoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
