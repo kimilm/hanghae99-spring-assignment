@@ -40,10 +40,22 @@ public final class JwtTokenUtils {
 
     // 여기에 Refrash Token 생성
     // Refresh Token은 DB에 저장됨
-    public static String generateRefreshToken() {
+    public static String generateRefreshToken(UserDetailsImpl userDetails) {
         // 구현 자체는 엑세스 토큰과 동일, 서버에 저장될뿐임
         // 레디스 서버에 저장한 조가 있었음
-        return "";
+        String token = null;
+        try {
+            token = JWT.create()
+                    .withIssuer("sparta")
+                    .withClaim(CLAIM_USER_NAME, userDetails.getUsername())
+                    // 토큰 만료 일시 = 현재 시간 + 토큰 유효기간), 30일
+                    .withClaim(CLAIM_EXPIRED_DATE, new Date(System.currentTimeMillis() + JWT_TOKEN_VALID_MILLI_SEC * 10))
+                    .sign(generateAlgorithm());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return token;
     }
 
     private static Algorithm generateAlgorithm() {
