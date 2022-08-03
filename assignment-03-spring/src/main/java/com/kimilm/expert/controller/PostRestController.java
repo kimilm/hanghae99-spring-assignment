@@ -72,9 +72,13 @@ public class PostRestController {
     }
 
     // 게시글 수정 api
-    @PutMapping(NAME_SPACE + "/api/posts/{id}")
-    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
-        Long updatedId = postService.updatePost(id, requestDto);
+    @PutMapping(NAME_SPACE + "/api/posts/{postId}")
+    public ResponseEntity<?> updatePost(
+            @PathVariable Long postId,
+            @RequestBody PostRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        Long updatedId = postService.updatePost(postId, requestDto, userDetails.getUser());
 
         Map<String, Object> result = new HashMap<>();
         result.put(PostUtils.MESSAGE, "수정 성공");
