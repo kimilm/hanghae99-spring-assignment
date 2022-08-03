@@ -28,7 +28,7 @@ public class PostRestController {
 
     // 게시글 전체 목록 조회 api
     @GetMapping(NAME_SPACE + "/api/posts")
-    public ResponseEntity<Map<String, Object>> getPostList() {
+    public ResponseEntity<?> getPostList() {
         List<PostListResponseDto> postListResponseDtoList = postRepository
                 .findAllByOrderByCreatedAtDesc().stream()
                 .map(PostListResponseDto::new)
@@ -42,7 +42,7 @@ public class PostRestController {
 
     // 게시글 조회 api
     @GetMapping(NAME_SPACE + "/api/posts/{id}")
-    public ResponseEntity<Map<String, Object>> getPost(@PathVariable Long id) {
+    public ResponseEntity<?> getPost(@PathVariable Long id) {
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("잘못된 게시글 아이디를 입력하였습니다.")
         );
@@ -56,7 +56,7 @@ public class PostRestController {
 
     // 게시글 작성 api
     @PostMapping(NAME_SPACE + "/api/posts")
-    public ResponseEntity<Map<String, Object>> createPost(@RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
+    public ResponseEntity<?> createPost(@RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
         Post post = new Post(requestDto);
         Post saved = postRepository.save(post);
 
@@ -69,7 +69,7 @@ public class PostRestController {
 
     // 비밀번호 검증 api
     @PostMapping(NAME_SPACE + "/api/posts/{id}")
-    public ResponseEntity<Map<String, Object>> validatePassword(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
+    public ResponseEntity<?> validatePassword(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
         boolean validation = postService.validatePassword(id, requestDto.getPassword());
 
         if (!validation) {
@@ -84,7 +84,7 @@ public class PostRestController {
 
     // 게시글 수정 api
     @PutMapping(NAME_SPACE + "/api/posts/{id}")
-    public ResponseEntity<Map<String, Object>> updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
+    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) throws NoSuchAlgorithmException {
         Long updatedId = postService.updatePost(id, requestDto);
 
         Map<String, Object> result = new HashMap<>();
@@ -96,7 +96,7 @@ public class PostRestController {
 
     // 게시글 삭제 api
     @DeleteMapping(NAME_SPACE + "/api/posts/{id}")
-    public ResponseEntity<Map<String, Object>> updatePost(@PathVariable Long id) {
+    public ResponseEntity<?> updatePost(@PathVariable Long id) {
         postRepository.deleteById(id);
 
         Map<String, Object> result = new HashMap<>();
