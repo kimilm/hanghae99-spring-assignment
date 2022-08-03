@@ -2,12 +2,11 @@ package com.kimilm.expert.model.post;
 
 import com.kimilm.expert.model.Timestamped;
 import com.kimilm.expert.model.post.dto.PostRequestDto;
-import com.kimilm.expert.util.PostUtils;
+import com.kimilm.expert.model.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.security.NoSuchAlgorithmException;
 
 @Entity
 @Getter
@@ -21,25 +20,21 @@ public class Post extends Timestamped {
     private String title;
 
     @Column(nullable = false)
-    private String author;
-
-    @Column(nullable = false)
     private String contents;
 
-    @Column(nullable = false)
-    private String password;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
-    public Post(PostRequestDto requestDto) throws NoSuchAlgorithmException {
+
+    public Post(PostRequestDto requestDto, User user) {
         this.title = requestDto.getTitle();
-        this.author = requestDto.getAuthor();
         this.contents = requestDto.getContents();
-        this.password = PostUtils.encoding(requestDto.getPassword());
+        this.user = user;
     }
 
-    public void update(PostRequestDto requestDto) throws NoSuchAlgorithmException {
+    public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
-        this.author = requestDto.getAuthor();
         this.contents = requestDto.getContents();
-        this.password = PostUtils.encoding(requestDto.getPassword());
     }
 }

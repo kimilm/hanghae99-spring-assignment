@@ -1,11 +1,14 @@
 package com.kimilm.expert.model.user;
 
 import com.kimilm.expert.model.Timestamped;
+import com.kimilm.expert.model.post.Post;
 import com.kimilm.expert.model.user.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,6 +28,9 @@ public class User extends Timestamped {
 
     @Column
     private String refreshToken;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    List<Post> posts = new ArrayList<>();
 
     public User(SignupRequestDto requestDto) {
         this.username = requestDto.getUsername();

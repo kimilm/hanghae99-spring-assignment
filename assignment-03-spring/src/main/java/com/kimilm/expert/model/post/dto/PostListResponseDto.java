@@ -17,7 +17,7 @@ public class PostListResponseDto {
     public PostListResponseDto(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
-        this.author = post.getAuthor();
+        this.author = post.getUser().getUsername();
         this.createdAt = post.getCreatedAt();
     }
 }
