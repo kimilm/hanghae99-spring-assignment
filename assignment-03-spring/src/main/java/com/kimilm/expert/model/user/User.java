@@ -1,6 +1,7 @@
 package com.kimilm.expert.model.user;
 
 import com.kimilm.expert.model.Timestamped;
+import com.kimilm.expert.model.user.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,13 +25,8 @@ public class User extends Timestamped {
     @Column(nullable = false)
     private String password;
 
-    public User(String username, String password, String email, UserRoleEnum role) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public User(String username, String password, String email, UserRoleEnum role, Long kakaoId) {
-        this.username = username;
-        this.password = password;
+    public User(SignupRequestDto requestDto) {
+        this.username = requestDto.getUsername();
+        this.password = requestDto.getPassword();
     }
 }

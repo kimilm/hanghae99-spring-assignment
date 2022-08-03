@@ -51,10 +51,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        // h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
         web
+                // h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
                 .ignoring()
-                .antMatchers("/h2-console/**");
+                .antMatchers("/h2-console/**")
+                // user 테이블에 대한 허용
+                .and()
+                .ignoring()
+                .antMatchers("/expert/api/users/**");
     }
 
     @Override
@@ -122,8 +126,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("POST,/h2-console/**");
 
         // 회원 관리 API 허용
-        skipPathList.add("GET,/user/**");
-        skipPathList.add("POST,/user/signup");
+        // skipPathList.add("GET,/user/**");
+        skipPathList.add("POST,/expert/api/users");
 
         // 작성글 조회 허용
         skipPathList.add("GET,/expert/api/**");
