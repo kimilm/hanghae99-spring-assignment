@@ -131,7 +131,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // skipPathList.add("GET,/user/**");
         skipPathList.add("POST," + NAME_SPACE + "/api/users/**");
 
-        // 작성글 조회 허용
+        // 작성글, 댓글 조회 허용
         skipPathList.add("GET," + NAME_SPACE + "/api/**");
 
         skipPathList.add("GET,/");
