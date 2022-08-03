@@ -55,7 +55,8 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 //        UserRoleEnum role = user.getRole();
 //        String authority = role.getAuthority();
-        String authority = getPassword();
+        // 권한 일단 하나로 고정
+        String authority = "ROLE_USER";
 
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
         Collection<GrantedAuthority> authorities = new ArrayList<>();
