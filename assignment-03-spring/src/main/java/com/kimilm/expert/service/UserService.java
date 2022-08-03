@@ -24,7 +24,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtDecoder jwtDecoder;
 
     // 회원가입
     public User register(SignupRequestDto requestDto) {
@@ -63,7 +62,7 @@ public class UserService {
         tokens.add(JwtTokenUtils.generateJwtToken(userDetails));
         // 리프레시 토큰이 없거나 만료되었다면 리프레시 토큰 발급
         String refreshToken = user.getRefreshToken();
-        if (refreshToken == null || jwtDecoder.isExpired(refreshToken)) {
+        if (refreshToken == null || JwtDecoder.isExpired(refreshToken)) {
             refreshToken = JwtTokenUtils.generateRefreshToken(userDetails);
 
             tokens.add(refreshToken);

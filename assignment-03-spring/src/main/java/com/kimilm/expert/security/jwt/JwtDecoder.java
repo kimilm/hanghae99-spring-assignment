@@ -13,13 +13,11 @@ import java.util.Optional;
 
 import static com.kimilm.expert.security.jwt.JwtTokenUtils.*;
 
-@Component
 public class JwtDecoder {
 
+    private static final Logger log = LoggerFactory.getLogger(JwtDecoder.class);
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-    public String decodeUsername(String token) {
+    public static String decodeUsername(String token) {
         DecodedJWT decodedJWT = isValidToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("유효한 토큰이 아닙니다."));
 
@@ -39,7 +37,7 @@ public class JwtDecoder {
         return username;
     }
 
-    public boolean isExpired(String token) {
+    public static boolean isExpired(String token) {
         DecodedJWT decodedJWT = isValidToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("유효한 토큰이 아닙니다."));
 
@@ -51,7 +49,7 @@ public class JwtDecoder {
         return expiredDate.before(now);
     }
 
-    private Optional<DecodedJWT> isValidToken(String token) {
+    private static Optional<DecodedJWT> isValidToken(String token) {
         DecodedJWT jwt = null;
 
         try {
