@@ -27,7 +27,7 @@ public class PostRestController {
     private final PostService postService;
 
     // 게시글 전체 목록 조회 api
-    @GetMapping(NAME_SPACE + "/api/posts")
+    @GetMapping(NAME_SPACE + "/api/posts/signup")
     public ResponseEntity<?> getPostList() {
         List<PostListResponseDto> postListResponseDtoList = postRepository
                 .findAllByOrderByCreatedAtDesc().stream()

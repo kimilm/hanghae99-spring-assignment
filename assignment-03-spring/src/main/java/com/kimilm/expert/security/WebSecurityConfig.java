@@ -21,6 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kimilm.expert.controller.ApiPath.NAME_SPACE;
+
 @Configuration
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 @EnableGlobalMethodSecurity(securedEnabled = true) // @Secured 어노테이션 활성화
@@ -127,10 +129,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 회원 관리 API 허용
         // skipPathList.add("GET,/user/**");
-        skipPathList.add("POST,/expert/api/users");
+        skipPathList.add("POST," + NAME_SPACE + "/api/users/**");
 
         // 작성글 조회 허용
-        skipPathList.add("GET,/expert/api/**");
+        skipPathList.add("GET," + NAME_SPACE + "/api/**");
 
         skipPathList.add("GET,/");
         skipPathList.add("GET,/basic.js");
