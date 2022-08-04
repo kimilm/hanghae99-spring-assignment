@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,20 @@ public class UserService {
 
     // 회원가입
     public User register(SignupRequestDto requestDto) {
+        Pattern patternUsername = Pattern.compile("^([a-zA-Z0-9]{4,12})$"); //\d{4,12}
+        Pattern patternPassword= Pattern.compile("^([a-z0-9]{4,32})$"); //\d{4,32}
+        Boolean usernameMatchResult = patternUsername.matcher(requestDto.getUsername()).matches() ;
+        Boolean passwordMatchResult = patternPassword.matcher(requestDto.getPassword()).matches();
+
+        // 입력값 검증
+        if (!usernameMatchResult) {
+            throw new IllegalArgumentException("아이디는 최소 4자 이상 12자 이하, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성되어야 합니다.");
+        }
+
+        if (!passwordMatchResult) {
+            throw new IllegalArgumentException("비밀번호는 최소 4자 이상 32자 이하, 알파벳 소문자(a~z), 숫자(0~9) 로 구성되어야 합니다.");
+        }
+
         // 사용자가 존재한다면
         if (userRepository.existsByUsername(requestDto.getUsername())) {
             throw new IllegalArgumentException("이미 존재하는 사용자 아이디 입니다.");
@@ -54,8 +69,11 @@ public class UserService {
         }
 
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
+
+        // 이만큼이 필요가 없나..?
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        //
 
         List<String> tokens = new ArrayList<>();
         // accessToken
