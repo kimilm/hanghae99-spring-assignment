@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'java'
+    id 'application'
 }
 
 sourceCompatibility = 11
@@ -9,6 +10,10 @@ targetCompatibility = 11
 
 group = 'com.kimilm'
 version = '0.0.1-SNAPSHOT'
+
+bootJar {
+    mainClassName = 'com.kimilm.Application'
+}
 
 configurations {
     compileOnly {
