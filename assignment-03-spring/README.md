@@ -16,8 +16,8 @@
 | PUT | /expert/api/posts/{postId} | JSON | 200 | <pre>{<br/>　"token": 액세스 토큰,<br/>　"title": 제목,<br/>　"contents": 게시글 내용<br/>}</pre> | <pre>{<br/>　"msg": "게시글 수정 성공"<br/>　"postId": 게시글 아이디<br/>}</pre> | 게시글 수정 |
 | DELETE | /expert/api/posts/{postId} | JSON | 200 | <pre>{<br/>　"token": 액세스 토큰<br/>}</pre> | <pre>{<br/>　"msg": "게시글 삭제 성공"<br/>}</pre> | 게시글 삭제 |
 | 댓글 |
-| GET | /expert/api/comments/{postId} | JSON | 200 |  | <pre>{<br/>　"data": [<br/>　　{<br/>　　　"postId": 게시글 아이디,<br/>　　　"commentId": 댓글 아이디,<br/>　　　"userId": 유저 아이디,<br/>　　　"contents": 댓글 내용,<br/>　　　"createdAt": 작성 날짜,<br/>　　　"modifiedAt": 수정 날짜<br/>　　}<br/>　]<br/>}</pre> | 게시글 댓글 전체 조회 |
-| POST | /expert/api/comments/{postId} | JSON | 200 | <pre>{<br/>　"token": 액세스 토큰,<br/>　"contents": 댓글 내용<br/>}</pre> | <pre>{<br/>　"msg": "댓글 작성 성공",<br/>　"commentId": 댓글 아이디<br/>}</pre> | 게시글 댓글 작성 |
+| GET | /expert/api/comments?postId={postId} | JSON | 200 |  | <pre>{<br/>　"data": [<br/>　　{<br/>　　　"postId": 게시글 아이디,<br/>　　　"commentId": 댓글 아이디,<br/>　　　"userId": 유저 아이디,<br/>　　　"contents": 댓글 내용,<br/>　　　"createdAt": 작성 날짜,<br/>　　　"modifiedAt": 수정 날짜<br/>　　}<br/>　]<br/>}</pre> | 게시글 댓글 전체 조회 |
+| POST | /expert/api/comments?postId={postId} | JSON | 200 | <pre>{<br/>　"token": 액세스 토큰,<br/>　"contents": 댓글 내용<br/>}</pre> | <pre>{<br/>　"msg": "댓글 작성 성공",<br/>　"commentId": 댓글 아이디<br/>}</pre> | 게시글 댓글 작성 |
 | PUT | /expert/api/comments/{commentId} | JSON | 200 | <pre>{<br/>　"token": 액세스 토큰,<br/>　"contents": 댓글 내용<br/>}</pre> | <pre>{<br/>　"msg": "댓글 수정 성공",<br/>　"commentId": 댓글 아이디<br/>}</pre> | 댓글 수정 |
 | DELETE | /expert/api/comments/{commentId} | JSON | 200 | <pre>{<br/>　"token": 액세스 토큰<br/>}</pre> | <pre>{<br/>　"msg": "댓글 삭제 성공"<br/>}</pre> | 댓글 삭제 |
 

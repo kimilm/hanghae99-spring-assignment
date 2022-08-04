@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -21,9 +22,8 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping(NAME_SPACE + "/api/comments/{postId}")
-    public ResponseEntity<?> getCommentByPostId(@PathVariable Long postId) {
-
+    @GetMapping(NAME_SPACE + "/api/comments")
+    public ResponseEntity<?> getCommentByPostId(@RequestParam Long postId) {
         List<CommentResponseDto> comments = commentService.getCommentsByPostId(postId);
 
         Map<String, Object> result = new HashMap<>();
