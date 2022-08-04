@@ -19,7 +19,7 @@ import static com.kimilm.expert.controller.ApiPath.NAME_SPACE;
 
 @RestController
 @RequiredArgsConstructor
-public class CommentController {
+public class CommentRestController {
 
     private final CommentService commentService;
 
@@ -59,6 +59,20 @@ public class CommentController {
         Map<String, Object> result = new HashMap<>();
         result.put(PostUtils.MESSAGE, "댓글 수정 성공");
         result.put("commentId", updatedCommentId);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @DeleteMapping(NAME_SPACE + "/api/comments/{commentId}")
+    public ResponseEntity<?> deleteComment(
+            @PathVariable Long commentId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        Long deletedCommentId = commentService.deleteComment(commentId, userDetails.getUser());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put(PostUtils.MESSAGE, "댓글 삭제 성공");
+        result.put("commentId", deletedCommentId);
 
         return ResponseEntity.ok().body(result);
     }

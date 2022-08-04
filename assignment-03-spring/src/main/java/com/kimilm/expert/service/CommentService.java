@@ -56,4 +56,18 @@ public class CommentService {
 
         return comment.getId();
     }
+
+    //삭제
+    public Long deleteComment(Long commentId, User user) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+
+        if (!comment.getUser().getUsername().equals(user.getUsername())) {
+            throw new IllegalArgumentException("댓글을 작성한 사용자만 삭제할 수 있습니다.");
+        }
+
+        commentRepository.delete(comment);
+
+        return commentId;
+    }
 }
