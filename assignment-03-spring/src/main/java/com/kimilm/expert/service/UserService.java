@@ -8,9 +8,6 @@ import com.kimilm.expert.security.UserDetailsImpl;
 import com.kimilm.expert.security.jwt.JwtDecoder;
 import com.kimilm.expert.security.jwt.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +26,8 @@ public class UserService {
     // 회원가입
     public User register(SignupRequestDto requestDto) {
         Pattern patternUsername = Pattern.compile("^([a-zA-Z0-9]{4,12})$"); //\d{4,12}
-        Pattern patternPassword= Pattern.compile("^([a-z0-9]{4,32})$"); //\d{4,32}
-        Boolean usernameMatchResult = patternUsername.matcher(requestDto.getUsername()).matches() ;
+        Pattern patternPassword = Pattern.compile("^([a-z0-9]{4,32})$"); //\d{4,32}
+        Boolean usernameMatchResult = patternUsername.matcher(requestDto.getUsername()).matches();
         Boolean passwordMatchResult = patternPassword.matcher(requestDto.getPassword()).matches();
 
         // 입력값 검증
@@ -69,11 +66,6 @@ public class UserService {
         }
 
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
-
-        // 이만큼이 필요가 없나..?
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        //
 
         List<String> tokens = new ArrayList<>();
         // accessToken

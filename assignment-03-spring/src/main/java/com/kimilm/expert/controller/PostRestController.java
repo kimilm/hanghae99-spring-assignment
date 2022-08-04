@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +88,7 @@ public class PostRestController {
 
     // 게시글 삭제 api
     @DeleteMapping(NAME_SPACE + "/api/posts/{postId}")
-    public ResponseEntity<?> updatePost(
+    public ResponseEntity<?> deletePost(
             @PathVariable Long postId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Long deletedId = postService.deletePost(postId, userDetails.getUser());
