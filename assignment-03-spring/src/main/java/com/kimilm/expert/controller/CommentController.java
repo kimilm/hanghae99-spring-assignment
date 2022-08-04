@@ -1,14 +1,15 @@
 package com.kimilm.expert.controller;
 
+import com.kimilm.expert.model.comment.dto.CommentRequestDto;
 import com.kimilm.expert.model.comment.dto.CommentResponseDto;
+import com.kimilm.expert.security.UserDetailsImpl;
 import com.kimilm.expert.service.CommentService;
 import com.kimilm.expert.util.PostUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,21 @@ public class CommentController {
 
         Map<String, Object> result = new HashMap<>();
         result.put(PostUtils.DATA, comments);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @PostMapping(NAME_SPACE + "/api/comments")
+    public ResponseEntity<?> createPost(
+            @RequestParam Long postId,
+            @RequestBody CommentRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        Long commentId = commentService.createComment(postId, requestDto, userDetails.getUser());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put(PostUtils.MESSAGE, "댓글 작성 성공");
+        result.put("commentId", commentId);
 
         return ResponseEntity.ok().body(result);
     }
